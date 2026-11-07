@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EcoDev – Onde descartar seu lixo especial</title>
+<meta name="description" content="Descubra o Ecoponto ou PEV mais próximo para descartar pilhas, eletrônicos, óleo de cozinha e entulho em São Paulo.">
+<style>
+:root{--verde:#1f7a4d;--verde-esc:#14532d;--claro:#eaf6ef;--texto:#1b2a22;--borda:#cfe3d6}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--texto);background:#f6fbf8;line-height:1.5}
+header{background:var(--verde-esc);color:#fff;padding:20px 16px;text-align:center}
+header h1{margin:0;font-size:1.6rem}
+header p{margin:6px 0 0;opacity:.9}
+main{max-width:720px;margin:0 auto;padding:16px}
+section{background:#fff;border:1px solid var(--borda);border-radius:14px;padding:16px;margin-bottom:16px}
+h2{margin:0 0 10px;font-size:1.15rem;color:var(--verde-esc)}
+button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:12px 16px;background:var(--verde);color:#fff;font-weight:600;min-height:44px}
+button:hover{background:var(--verde-esc)}
+button:disabled{opacity:.6;cursor:wait}
+button.sec{background:var(--claro);color:var(--verde-esc);border:1px solid var(--borda)}
+.linha{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+input,textarea{font:inherit;padding:11px;border:1px solid var(--borda);border-radius:10px;width:100%;min-height:44px}
+.linha input{flex:1;min-width:140px;width:auto}
+.ou{text-align:center;color:#5b6b62;margin:10px 0 0;font-size:.9rem}
+.card{border:1px solid var(--borda);border-radius:12px;padding:12px;margin-top:10px;background:var(--claro)}
+.card h3{margin:0 0 4px;font-size:1.05rem}
+.card a{color:var(--verde-esc);font-weight:600}
+.dist{font-weight:600;color:var(--verde)}
+.msg{margin-top:10px;white-space:pre-wrap}
+.erro{color:#a12020}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+footer{text-align:center;font-size:.85rem;color:#5b6b62;padding:8px 16px 28px}
+:focus-visible{outline:3px solid #f2b705;outline-offset:2px}
+</style>
+</head>
+<body>
+<header>
+  <h1>♻️ EcoDev</h1>
+  <p>Descubra onde descartar pilhas, eletrônicos, óleo de cozinha e entulho</p>
+</header>
+<main>
+  <section aria-labelledby="t1">
+    <h2 id="t1">1. Onde você está?</h2>
+    <button id="btnLoc" type="button">📍 Usar minha localização</button>
+    <p class="ou">ou digite seu CEP</p>
+    <form class="linha" id="formCep">
+      <label for="cep" hidden>CEP</label>
+      <input id="cep" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" maxlength="9">
+      <button type="submit" class="sec">Buscar</button>
+    </form>
+    <div id="resultado" aria-live="polite"></div>
+  </section>
+
+  <section aria-labelledby="t2">
+    <h2 id="t2">2. Ficou com dúvida?</h2>
+    <div class="chips" id="chips">
+      <button type="button" class="sec">Onde descarto pilhas?</button>
+      <button type="button" class="sec">Posso levar óleo de cozinha?</button>
+      <button type="button" class="sec">Entulho paga taxa?</button>
+      <button type="button" class="sec">E eletrônicos velhos?</button>
+    </div>
+    <form id="formPergunta">
+      <label for="pergunta" hidden>Sua pergunta</label>
+      <textarea id="pergunta" rows="2" maxlength="400" placeholder="Digite sua pergunta sobre descarte…"></textarea>
+      <div class="linha"><button type="submit" id="btnPerg">Perguntar</button></div>
+    </form>
+    <div id="resposta" class="msg" aria-live="polite"></div>
+  </section>
+</main>
+<footer>Projeto extensionista EcoDev · Tecnologia e Sustentabilidade<br>As respostas usam só os dados cadastrados. Em caso de dúvida, ligue 156 (Prefeitura).</footer>
+
+<script>
+const $ = (id) => document.getElementById(id);
+let PONTOS = [];
+
+fetch("ecopontos.json").then(r => r.json()).then(d => { PONTOS = d; })
+  .catch(() => { $("resultado").innerHTML = '<p class="erro">Não consegui carregar os pontos. Recarregue a página.</p>'; });
+
+const km = (a, b, c, d) => {
+  const r = x => x * Math.PI / 180, dl = r(c - a), dn = r(d - b);
+  const h = Math.sin(dl / 2) ** 2 + Math.cos(r(a)) * Math.cos(r(c)) * Math.sin(dn / 2) ** 2;
+  return 12742 * Math.asin(Math.sqrt(h));
+};
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+function mostrar(lat, lon) {
+  const com = PONTOS.filter(p => p.lat != null && p.lon != null);
+  const lista = com.length
+    ? com.map(p => ({ p, d: km(lat, lon, p.lat, p.lon) })).sort((a, b) => a.d - b.d).slice(0, 2)
+    : PONTOS.slice(0, 2).map(p => ({ p, d: null }));
+  $("resultado").innerHTML = "<h3>Os pontos mais próximos de você</h3>" + lista.map(({ p, d }) => {
+    const destino = p.lat != null ? `${p.lat},${p.lon}` : encodeURIComponent(p.endereco);
+    return `<div class="card"><h3>${esc(p.nome)}</h3>
+      ${d != null ? `<span class="dist">${d.toFixed(1)} km de você</span><br>` : ""}
+      📍 ${esc(p.endereco)}<br>🕒 ${esc(p.horario || "horário não informado")}<br>
+      ♻️ Aceita: ${esc((p.aceita || []).join(", ") || "não informado")}
+      ${p.observacoes ? `<br>ℹ️ ${esc(p.observacoes)}` : ""}<br>
+      <a href="https://www.google.com/maps/dir/?api=1&destination=${destino}" target="_blank" rel="noopener">Como chegar →</a></div>`;
+  }).join("");
+}
+
+const erro = t => { $("resultado").innerHTML = `<p class="erro">${t}</p>`; };
+
+$("btnLoc").onclick = () => {
+  if (!navigator.geolocation) return erro("Seu navegador não permite localização. Digite o CEP.");
+  $("resultado").textContent = "Buscando sua localização…";
+  navigator.geolocation.getCurrentPosition(
+    pos => mostrar(pos.coords.latitude, pos.coords.longitude),
+    () => erro("Não consegui sua localização. Libere a permissão ou digite o CEP."),
+    { timeout: 15000 }
+  );
+};
+
+$("cep").oninput = e => {
+  const v = e.target.value.replace(/\D/g, "").slice(0, 8);
+  e.target.value = v.length > 5 ? v.slice(0, 5) + "-" + v.slice(5) : v;
+};
+
+$("formCep").onsubmit = async e => {
+  e.preventDefault();
+  const cep = $("cep").value.replace(/\D/g, "");
+  if (cep.length !== 8) return erro("Digite um CEP com 8 números.");
+  $("resultado").textContent = "Procurando seu CEP…";
+  try {
+    const v = await (await fetch(`https://viacep.com.br/ws/${cep}/json/`)).json();
+    if (v.erro) return erro("CEP não encontrado. Confira os números.");
+    const busca = async q => (await fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" + encodeURIComponent(q))).json();
+    let r = await busca(`${v.logradouro || ""}, ${v.bairro || ""}, ${v.localidade}, ${v.uf}, Brasil`);
+    if (!r.length) r = await busca(`${v.bairro || ""}, ${v.localidade}, ${v.uf}, Brasil`);
+    if (!r.length) return erro("Não consegui localizar esse CEP. Tente usar sua localização.");
+    mostrar(parseFloat(r[0].lat), parseFloat(r[0].lon));
+  } catch { erro("Sem conexão no momento. Tente de novo."); }
+};
+
+async function perguntar(texto) {
+  texto = texto.trim();
+  if (!texto) return;
+  $("btnPerg").disabled = true;
+  $("resposta").textContent = "Pensando…";
+  try {
+    const r = await fetch("/api/perguntar", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ pergunta: texto }) });
+    const d = await r.json();
+    $("resposta").textContent = d.resposta || d.erro || "Não consegui responder agora.";
+  } catch { $("resposta").textContent = "Sem conexão no momento. Tente de novo."; }
+  $("btnPerg").disabled = false;
+}
+$("formPergunta").onsubmit = e => { e.preventDefault(); perguntar($("pergunta").value); };
+$("chips").onclick = e => {
+  if (e.target.tagName === "BUTTON") { $("pergunta").value = e.target.textContent; perguntar(e.target.textContent); }
+};
+</script>
+</body>
+</html>

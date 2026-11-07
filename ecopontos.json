@@ -1,0 +1,130 @@
+[
+  {
+    "id": "ecoponto-vitor-manzini",
+    "nome": "Ecoponto Vitor Manzini",
+    "tipo": "Ecoponto",
+    "endereco": "Praça Vitor Manzini (próximo ao Terminal) - Santo Amaro, São Paulo - SP",
+    "lat": -23.665123,
+    "lon": -46.711822,
+    "horario": "Segunda a Sábado das 6h às 22h, Domingos e Feriados das 6h às 18h",
+    "aceita": [
+      "Entulho (até 1 m³)",
+      "Móveis velhos e madeiras",
+      "Papel e Papelão",
+      "Plástico",
+      "Vidro",
+      "Metal"
+    ],
+    "observacoes": "Limite de 1m³ por dia (aprox. 20 sacos de 50L). Não aceita lixo orgânico, gesso, telhas de amianto ou lixo hospitalar."
+  },
+  {
+    "id": "ecoponto-alceu-maynard-de-araujo",
+    "nome": "Ecoponto Alceu Maynard de Araújo",
+    "tipo": "Ecoponto",
+    "endereco": "Av. Professor Alceu Maynard Araújo, 330 - Vila Cruzeiro, São Paulo - SP, 04728-110",
+    "lat": -23.639343,
+    "lon": -46.716182,
+    "horario": "Segunda a Sábado das 6h às 22h, Domingos e Feriados das 6h às 18h",
+    "aceita": [
+      "Entulho (até 1 m³)",
+      "Móveis velhos e madeiras",
+      "Papel e Papelão",
+      "Plástico",
+      "Vidro",
+      "Metal"
+    ],
+    "observacoes": "Limite de 1m³ por dia (aprox. 20 sacos de 50L). Não aceita lixo orgânico, gesso ou telhas de amianto."
+  },
+  {
+    "id": "ecoponto-cidade-saudavel",
+    "nome": "Ecoponto Cidade Saudável",
+    "tipo": "Ecoponto",
+    "endereco": "R. Ptolomeu, 869 - Vila Socorro, São Paulo - SP, 04762-040",
+    "lat": -23.676343,
+    "lon": -46.718522,
+    "horario": "Temporariamente fechado",
+    "aceita": [
+      "Entulho (até 1 m³)",
+      "Móveis e madeiras",
+      "Recicláveis em geral"
+    ],
+    "observacoes": "Atenção: Atualmente consta como temporariamente fechado nos sistemas da Prefeitura."
+  },
+  {
+    "id": "ecoponto-piraporinha",
+    "nome": "Ecoponto Piraporinha",
+    "tipo": "Ecoponto",
+    "endereco": "R. João de Abreu, 326 - Jardim das Flores, São Paulo - SP, 04905-020",
+    "lat": -23.682343,
+    "lon": -46.746182,
+    "horario": "Segunda a Sábado das 6h às 22h, Domingos e Feriados das 6h às 18h",
+    "aceita": [
+      "Entulho (até 1 m³)",
+      "Móveis velhos e madeiras",
+      "Recicláveis comuns"
+    ],
+    "observacoes": "Limite de 1m³ por dia. Ideal para moradores próximos à Estrada do M'Boi Mirim."
+  },
+  {
+    "id": "ecoponto-vila-das-belezas",
+    "nome": "Ecoponto Vila das Belezas",
+    "tipo": "Ecoponto",
+    "endereco": "R. Campo Novo do Sul, 500 - Vila Andrade, São Paulo - SP, 05729-100",
+    "lat": -23.633343,
+    "lon": -46.743182,
+    "horario": "Segunda a Sábado das 6h às 22h, Domingos e Feriados das 6h às 18h",
+    "aceita": [
+      "Entulho (até 1 m³)",
+      "Móveis velhos e madeiras",
+      "Recicláveis comuns"
+    ],
+    "observacoes": "Limite padrão de 1m³ por dia (aprox. 20 sacos)."
+  },
+  {
+    "id": "ecoponto-vicente-rao",
+    "nome": "Ecoponto Vicente Ráo",
+    "tipo": "Ecoponto",
+    "endereco": "Av. Professor Vicente Ráo, 308 - Jardim Petropolis, São Paulo - SP, 04636-000",
+    "lat": -23.626343,
+    "lon": -46.685182,
+    "horario": "Segunda a Domingo das 6h às 22h",
+    "aceita": [
+      "Entulho (até 1 m³)",
+      "Móveis velhos e madeiras",
+      "Recicláveis comuns"
+    ],
+    "observacoes": "Funciona todos os dias até as 22h. Limite padrão da prefeitura aplicável."
+  },
+  {
+    "id": "pev-green-eletron",
+    "nome": "PEV Green Eletron (pilhas e eletrônicos)",
+    "tipo": "PEV de logística reversa",
+    "endereco": "Coletores distribuídos em lojas e supermercados da Zona Sul (ex: Carrefour, Droga Raia locais)",
+    "lat": null,
+    "lon": null,
+    "horario": "Horário comercial do estabelecimento parceiro",
+    "aceita": [
+      "Pilhas",
+      "Baterias",
+      "Pequenos eletroeletrônicos (celulares, cabos, fones)",
+      "Lâmpadas (dependendo do coletor)"
+    ],
+    "observacoes": "Os PEVs da Green Eletron são caixas coletoras verdes. Não aceitam eletrodomésticos de grande porte (geladeiras, fogões) ou entulho."
+  },
+  {
+    "id": "pev-coleta-eletronico-domitila",
+    "nome": "Coleta de Lixo Eletrônico - Domitila",
+    "tipo": "PEV de logística reversa",
+    "endereco": "Av. Rodrigues Montemor, 565 - Cidade Domitila, São Paulo - SP, 04387-002",
+    "lat": -23.666343,
+    "lon": -46.656182,
+    "horario": "Segunda a Sexta das 9h às 18h, Sábados das 9h às 14h",
+    "aceita": [
+      "Equipamentos Eletrônicos em geral",
+      "Pilhas e Baterias",
+      "Celulares",
+      "Fios e Cabos"
+    ],
+    "observacoes": "Focado exclusivamente em resíduos eletrônicos para evitar contaminação de metais pesados. Não recebe entulho de obra."
+  }
+]
