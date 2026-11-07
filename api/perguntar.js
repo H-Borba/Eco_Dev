@@ -3,7 +3,7 @@
 const { readFileSync } = require("node:fs");
 const { join } = require("node:path");
 
-const MODELO = process.env.GEMINI_MODEL || "gemini-2.5-flash"; // confira o nome atual no Google AI Studio
+const MODELO = process.env.GEMINI_MODEL || "gemini-3.1-flash"; // confira o nome atual no Google AI Studio
 const PONTOS = readFileSync(join(process.cwd(), "ecopontos.json"), "utf-8");
 
 const SISTEMA = `Você é o assistente virtual da EcoDev, projeto extensionista de uma faculdade que ajuda
